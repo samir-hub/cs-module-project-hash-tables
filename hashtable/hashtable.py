@@ -37,7 +37,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        pass
+        return len(self.storage)
 
 
     def get_load_factor(self):
@@ -47,6 +47,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.count / self.capacity
 
 
     def fnv1(self, key):
@@ -57,6 +58,21 @@ class HashTable:
         """
 
         # Your code here
+        # 64-bit constants
+        FNV_offset_basis_64 = 0xcbf29ce484222325
+        FNV_prime_64 = 0x100000001b3
+
+        # Cast the key to a string and get bytes
+        str_key = str(key).encode()
+
+        hash = FNV_offset_basis_64
+
+        for b in str_key:
+            hash *= FNV_prime_64
+            hash ^= b
+            hash &= 0xffffffffffffffff  # 64-bit hash
+
+        return hash
 
 
     def djb2(self, key):
@@ -66,6 +82,7 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        pass
 
 
     def hash_index(self, key):
@@ -74,7 +91,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -85,6 +102,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        
 
 
     def delete(self, key):
